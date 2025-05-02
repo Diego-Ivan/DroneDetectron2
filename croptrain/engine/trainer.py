@@ -169,7 +169,7 @@ class BaselineTrainer(DefaultTrainer):
             evaluator= COCOEvaluator(dataset_name, output_dir=output_folder)
             #ignore the last "others" class
             if "visdrone" in dataset_name:
-                evaluator._coco_api.dataset['categories'] = evaluator._coco_api.dataset['categories'][:-1]
+                evaluator._coco_api.dataset['categories'] = evaluator._coco_api.dataset['categories']
             evaluator_list.append(evaluator)    
         elif evaluator_type == "pascal_voc":
             return PascalVOCDetectionEvaluator(dataset_name)

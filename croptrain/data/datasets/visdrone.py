@@ -102,7 +102,7 @@ def compute_crops(data_dict, cfg):
     new_data_dicts = []
     gt_boxes = np.vstack([obj['bbox'] for obj in data_dict_this_image["annotations"]])
     scaled_boxes = bbox_scale(gt_boxes.copy(), data_dict_this_image['height'], data_dict_this_image['width'])
-    inside_flag = np.ones(len(data_dict['annotations'])).astype(np.bool8)
+    inside_flag = np.ones(len(data_dict['annotations'])).astype(np.bool_)
     seg_areas = Boxes(gt_boxes).area()
 
     #stage 1 - merging
@@ -158,7 +158,7 @@ def  extract_crops_from_image(dataset_dicts, cfg):
 def load_visdrone_instances(dataset_name, data_dir, cfg, is_train, extra_annotation_keys=None):
     split = dataset_name.split("_")[-1]
     json_file = os.path.join(data_dir, "annotations_VisDrone_%s.json" % split)
-    image_path = os.path.join(data_dir, split, "images")
+    image_path = os.path.join(data_dir, split)
     from pycocotools.coco import COCO
 
     timer = Timer()
@@ -171,7 +171,6 @@ def load_visdrone_instances(dataset_name, data_dir, cfg, is_train, extra_annotat
     if dataset_name is not None:
         meta = MetadataCatalog.get(dataset_name)
         cat_ids = sorted(coco_api.getCatIds())
-        cat_ids = cat_ids[:-1] #ingore the last "others" class
         cats = coco_api.loadCats(cat_ids)
         if cfg.CROPTRAIN.USE_CROPS and is_train:
             cats.append({'id':11, 'name':'cluster', 'supercategory':'none'})
@@ -275,10 +274,10 @@ def register_visdrone(dataset_name, data_dir, cfg, is_train):
     # since they might be useful in evaluation, visualization or logging
     split = dataset_name.split("_")[-1]
     json_file = os.path.join(data_dir, "annotations_VisDrone_%s.json" % split)
-    image_root = os.path.join(data_dir, split, "images")
+    image_root = os.path.join(data_dir, split)
     coco_api = COCO(json_file)
     cat_ids = sorted(coco_api.getCatIds())
-    cat_ids = cat_ids[:-1] #ingore the last "others" class
+    # cat_ids = cat_ids[:-1] #ingore the last "others" class
     cats = coco_api.loadCats(cat_ids)
     if cfg.CROPTRAIN.USE_CROPS and is_train:
         cats.append({'id':11, 'name':'cluster', 'supercategory':'none'})
