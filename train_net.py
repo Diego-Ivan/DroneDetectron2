@@ -46,7 +46,7 @@ def main(args):
         cfg.MODEL.ROI_HEADS.NUM_CLASSES += 1
         cfg.freeze()
     if "visdrone" in cfg.DATASETS.TRAIN[0] or "visdrone" in cfg.DATASETS.TEST[0]:
-        data_dir = os.path.join('/content/DroneDetectron2/croptrain/datasets', "VisDrone")
+        data_dir = os.path.join('/kaggle/working/DroneDetectron2/croptrain/datasets', "VisDrone")
         if not args.eval_only:
             register_visdrone(cfg.DATASETS.TRAIN[0], data_dir, cfg, True)
         register_visdrone(cfg.DATASETS.TEST[0], data_dir, cfg, False)
